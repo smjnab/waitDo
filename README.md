@@ -1,7 +1,6 @@
 # waitDo
 Timer to create sequences suitable for game development.
 
-### A timer allows for interesting game events
 Having a timer that is quick to use and configurable makes it more enjoyable to create interesting events. Over the years I have tweaked a timer and I found the latest revision of it to be simple, yet highly configurable and worth sharing to anyone interested. Following are some examples of how to use it.
 
 #### The basic, three examples
