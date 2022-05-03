@@ -51,6 +51,12 @@ export class Time {
 
                     // Set the next time to trigger a callback.
                     if (!waitDo.props.stop) waitDo.wait = waitDo.totalTime + waitDo.props.wait;
+                    
+                     // If waitDo is static, set it stopped false and paused true to keep the ID for re-use.
+                    else if (waitDo.props.static) {
+                        waitDo.props.stop = false;
+                        waitDo.props.pause = true;
+                    }
 
                     // WaitDo stopped, set the id (array element) free to use by a new WaitDo.
                     else this.freeWaitDoID = waitDo.props.id;
@@ -104,6 +110,7 @@ export class Time {
                 id: getID(),
                 pause: false,
                 stop: false,
+                static: false,
                 repeat: false,
                 wait: wait,
                 cbIndex: 0,
@@ -123,6 +130,38 @@ export class Time {
         else waitDoObject.props.id = this.waitDos.push(waitDoObject) - 1;
 
         return waitDoObject.props.id;
+    }
+
+    /**
+     * Create a waitDo at an earlier point for usage at a later point.
+     * 
+     * @param initCb a method that supplies the props to create the props to be initialized.
+     * @returns 
+     */
+    initWaitDo(initCb: (props: WaitDoProps) => void) {
+        // Create a waitDo, pause it directly and set it static to keep the ID until specifically setting static false.
+        const waitDoID = this.waitDo(0);
+        const waitDo = this.getWaitDo(waitDoID);
+        waitDo.props.pause = true;
+        waitDo.props.static = true;
+
+        // Run the callback to populate props as wanted.
+        initCb(waitDo.props);
+
+        // Return a method that works like a regular waitDo. Using it will start the timer with the initialized props.
+        return (time: number, ...callbacks: WaitDoCallbacks) => {
+            waitDo.wait = time;             // First callback wait.
+            waitDo.props.wait = time;       // Following callbacks wait.
+            waitDo.callbacks = callbacks;   // Add callbacks.
+            waitDo.props.pause = false;     // Start waitDo
+            waitDo.totalTime = 0;           // Reset 
+            waitDo.props.repeat = false;    // Reset 
+            waitDo.props.cbIndex = 0;       // Reset 
+            waitDo.props.accDelta = 0;      // Reset 
+            waitDo.props.accMs = 0;         // Reset 
+
+            return waitDoID;
+        };
     }
 
 
