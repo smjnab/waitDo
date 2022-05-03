@@ -4,7 +4,8 @@ type WaitDoProps = {
     stop: boolean, pause: boolean,  // Stop will stop and free the timer, pause will pause but keep the timer.
     repeat: boolean, wait: number,  // Repeat will repeat the current callback, wait will be the time between repeats/next callback.
     accDelta: number, accMs: number,  // Accumulated frame delta and frame time since timer started, or since last callback. 
-    destroyCb: (props: WaitDoProps) => void // Method called when using .clean(). Useful if creating props in a timer that needs cleaning.
+    destroyCb: (props: WaitDoProps) => void, // Method called when using .clean(). Useful if creating props in a timer that needs cleaning.
+    static: boolean // Don't release the ID when the timer is stopped.
 }
 type WaitDoCb = (props: WaitDoProps, delta: number, ms: number) => void; 
 type WaitDoObject = { wait: number, totalTime: number, callbacks: WaitDoCb[], props: WaitDoProps }
