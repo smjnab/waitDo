@@ -70,8 +70,9 @@ export class Time {
      */
     cleanUp() {
         this.waitDos.forEach(waitDo => waitDo.props.destroyCb(waitDo.props));
-
         this.waitDos = [];
+        
+        this.freeWaitDoID = undefined;
     }
 
 
