@@ -87,9 +87,9 @@ time.waitDo(0,
     props.sprite.visible = true;
     props.sprite.y += 1 * delta;
 
-    if (props.sprite.y < 100) props.repeate = true;
+    if (props.sprite.y < 100) props.repeat = true;
     else {
-      props.repeate = false;
+      props.repeat = false;
       props.count++;
       
       if (props.count > 1) props.cbIndex = 3; 
@@ -102,8 +102,8 @@ time.waitDo(0,
    
     props.sprite.y -= 1 * delta;
     
-    if (props.sprite.y > 0) props.repeate = true;
-    else props.cbIndex = 1; 
+    if (props.sprite.y > 0) props.repeat = true;
+    else props.cbIndex = 2; // Two because repeat true makes this 1 lower, so actual is 1.
   },
   (props) =>{
    console.log("Hiding the sprite. When later using time.clean(), the sprite will be properly destroyed.");
