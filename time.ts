@@ -38,7 +38,7 @@ export class Time {
                     waitDo.props.accMs = 0;
 
                     // Check if this was the last callback.
-                    waitDo.props.stop = waitDo.callbacks[waitDo.props.cbIndex] ? false : true;
+                    if (!waitDo.props.stop) waitDo.props.stop = waitDo.callbacks[waitDo.props.cbIndex] ? false : true;
 
                     // Last callback, but set to repeat, step back to repeat same callback next pass.
                     if (waitDo.props.stop && waitDo.props.repeat) {
